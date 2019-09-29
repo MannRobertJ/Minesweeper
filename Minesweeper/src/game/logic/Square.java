@@ -1,4 +1,4 @@
-package logic;
+package game.logic;
 
 public class Square {
 	private final int x;

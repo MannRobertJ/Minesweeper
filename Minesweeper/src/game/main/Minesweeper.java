@@ -1,3 +1,4 @@
+package game.main;
 
 public class Minesweeper {
 
