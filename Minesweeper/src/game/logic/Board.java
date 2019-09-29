@@ -1,14 +1,14 @@
 package game.logic;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class Board {
 	private final int width;
 	private final int height;
 	private final double bombDensity;
-	private final List<Square> squares;
+	private final Map<Coordinate, Square> squares;
 	private boolean lost;
 	private boolean won;
 
@@ -16,7 +16,7 @@ public class Board {
 		this.width = width;
 		this.height = height;
 		this.bombDensity = bombDensity;
-		this.squares = new ArrayList<Square>();
+		this.squares = new HashMap<Coordinate, Square>();
 		this.lost = false;
 		this.won = false;
 	}
@@ -27,13 +27,14 @@ public class Board {
 			for (int j = 0; j < height; j++) {
 				Boolean isBomb = rand.nextDouble() < bombDensity;
 				Square newSquare = new Square(i, j, isBomb, this);
-				squares.add(newSquare);
+				Coordinate coord = new Coordinate(i, j);
+				squares.put(coord, newSquare);
 			}
 		}
 	}
 
 	public void checkIfWon() {
-		for (Square square : squares) {
+		for (Square square : squares.values()) {
 			if (square.isBomb()) {
 				continue;
 			}
@@ -68,7 +69,7 @@ public class Board {
 		return bombDensity;
 	}
 
-	public List<Square> getSquares() {
+	public Map<Coordinate, Square> getSquares() {
 		return squares;
 	}
 
