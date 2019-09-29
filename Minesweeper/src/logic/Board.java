@@ -32,6 +32,18 @@ public class Board {
 		}
 	}
 
+	public void checkIfWon() {
+		for (Square square : squares) {
+			if (square.isBomb()) {
+				continue;
+			}
+			if (!square.isRevealed()) {
+				return;
+			}
+		}
+		won = true;
+	}
+
 	public boolean isLost() {
 		return lost;
 	}
@@ -42,10 +54,6 @@ public class Board {
 
 	public boolean isWon() {
 		return won;
-	}
-
-	public void win() {
-		this.won = true;
 	}
 
 	public int getWidth() {

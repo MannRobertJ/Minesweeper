@@ -39,6 +39,9 @@ public class Square {
 
 	public void reveal() {
 		isRevealed = true;
+		if (isBomb) {
+			board.lose();
+		}
 	}
 
 	public void toggleFlagged() {
