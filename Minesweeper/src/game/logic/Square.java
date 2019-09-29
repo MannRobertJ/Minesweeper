@@ -33,6 +33,9 @@ public class Square {
 				}
 				Coordinate coord = new Coordinate(x + i, y + j);
 				Square neighbour = board.getSquares().get(coord);
+				if (neighbour == null) {
+					continue;
+				}
 				neighbours.add(neighbour);
 				if (neighbour.isBomb()) {
 					bombs++;
@@ -40,6 +43,10 @@ public class Square {
 			}
 		}
 		return bombs;
+	}
+
+	public int getBombNeighbours() {
+		return bombNeighbours;
 	}
 
 	public boolean isFlag() {
@@ -63,14 +70,15 @@ public class Square {
 	}
 
 	public void reveal() {
+		if (isRevealed) {
+			return;
+		}
 		isRevealed = true;
 		if (isBomb) {
 			board.lose();
 		}
 		if (bombNeighbours == 0) {
-			for (Square square : neighbours) {
-				square.reveal();
-			}
+			neighbours.forEach(square -> square.reveal());
 		}
 	}
 
