@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class Board {
+public class Game {
 	private final int width;
 	private final int height;
 	private final double bombDensity;
@@ -12,13 +12,14 @@ public class Board {
 	private boolean lost;
 	private boolean won;
 
-	public Board(int width, int height, double bombDensity) {
+	public Game(int width, int height, double bombDensity) {
 		this.width = width;
 		this.height = height;
 		this.bombDensity = bombDensity;
 		this.squares = new HashMap<Coordinate, Square>();
 		this.lost = false;
 		this.won = false;
+		generateSquares();
 	}
 
 	public void generateSquares() {
@@ -30,6 +31,9 @@ public class Board {
 				Coordinate coord = new Coordinate(i, j);
 				squares.put(coord, newSquare);
 			}
+		}
+		for (Square square : squares.values()) {
+			square.countBombNeighbours();
 		}
 	}
 
@@ -51,6 +55,7 @@ public class Board {
 
 	public void lose() {
 		lost = true;
+		System.out.println("You lose");
 	}
 
 	public boolean isWon() {

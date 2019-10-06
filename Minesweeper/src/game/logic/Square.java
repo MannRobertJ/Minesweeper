@@ -9,40 +9,38 @@ public class Square {
 	private final boolean isBomb;
 	private boolean isFlagged;
 	private boolean isRevealed;
-	private final Board board;
+	private final Game game;
 	private final List<Square> neighbours;
-	private final int bombNeighbours;
+	private int bombNeighbours;
 
-	public Square(int x, int y, boolean bomb, Board board) {
+	public Square(int x, int y, boolean bomb, Game game) {
 		this.x = x;
 		this.y = y;
 		this.isBomb = bomb;
 		this.isFlagged = false;
 		this.isRevealed = false;
-		this.board = board;
+		this.game = game;
 		this.neighbours = new ArrayList<Square>();
-		this.bombNeighbours = countBombNeighbours();
+		this.bombNeighbours = 0;
 	}
 
-	private int countBombNeighbours() {
-		int bombs = 0;
+	public void countBombNeighbours() {
 		for (int i = -1; i < 2; i++) {
 			for (int j = -1; j < 2; j++) {
 				if (i == 0 && j == 0) {
 					continue;
 				}
 				Coordinate coord = new Coordinate(x + i, y + j);
-				Square neighbour = board.getSquares().get(coord);
+				Square neighbour = game.getSquares().get(coord);
 				if (neighbour == null) {
 					continue;
 				}
 				neighbours.add(neighbour);
 				if (neighbour.isBomb()) {
-					bombs++;
+					bombNeighbours++;
 				}
 			}
 		}
-		return bombs;
 	}
 
 	public int getBombNeighbours() {
@@ -75,7 +73,8 @@ public class Square {
 		}
 		isRevealed = true;
 		if (isBomb) {
-			board.lose();
+			game.lose();
+			return;
 		}
 		if (bombNeighbours == 0) {
 			neighbours.forEach(square -> square.reveal());
