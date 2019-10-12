@@ -73,8 +73,8 @@ public class Square {
 	}
 
 	private void clearSquareAndNeighbours() {
-		for (int i = -1; i < 2; i++) {
-			for (int j = -1; j < 2; j++) {
+		for (int i = -2; i < 3; i++) {
+			for (int j = -2; j < 3; j++) {
 				Coordinate coord = new Coordinate(x + i, y + j);
 				Square square = game.getSquares().get(coord);
 				if (square != null) {
@@ -82,8 +82,8 @@ public class Square {
 				}
 			}
 		}
-		for (int i = -1; i < 2; i++) {
-			for (int j = -1; j < 2; j++) {
+		for (int i = -2; i < 3; i++) {
+			for (int j = -2; j < 3; j++) {
 				Coordinate coord = new Coordinate(x + i, y + j);
 				Square square = game.getSquares().get(coord);
 				if (square != null) {
