@@ -81,6 +81,17 @@ public class Square {
 		}
 	}
 
+	@Override
+	public String toString() {
+		if (!isRevealed) {
+			return "?";
+		}
+		if (isBomb) {
+			return "b";
+		}
+		return "" + getBombNeighbours();
+	}
+
 	public void toggleFlagged() {
 		isFlagged = !isFlagged;
 	}
