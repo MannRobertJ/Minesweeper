@@ -3,7 +3,6 @@ package game.logic;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.Scanner;
 
 import game.gui.Display;
 
@@ -14,50 +13,30 @@ public class Game {
 	private final Map<Coordinate, Square> squares;
 	private boolean lost;
 	private boolean won;
-	private final Display display;
-	private final boolean godMode;
+	private boolean isStarted;
 
-	public Game(int width, int height, double bombDensity, boolean godMode) {
+	public Game(int width, int height, double bombDensity) {
 		this.width = width;
 		this.height = height;
 		this.bombDensity = bombDensity;
 		this.squares = new HashMap<Coordinate, Square>();
 		this.lost = false;
 		this.won = false;
-		this.display = new Display(this);
+		this.isStarted = false;
 		generateSquares();
-		this.godMode = godMode;
 	}
 
-	public Game(int width, int height, double bombDensity) {
-		this(width, height, bombDensity, false);
+	public boolean isStarted() {
+		return isStarted;
 	}
 
-	public boolean isGodMode() {
-		return godMode;
+	public void setStarted(boolean isStarted) {
+		this.isStarted = isStarted;
 	}
 
 	public void run() {
-		final Scanner scan = new Scanner(System.in);
-		while (!lost & !won) {
-			display.show();
-			try {
-				int x = scan.nextInt();
-				int y = scan.nextInt();
-				Coordinate coord = new Coordinate(x, y);
-				Square square = squares.get(coord);
-				square.reveal();
-				checkIfWon();
-			} catch (Throwable t) {
-				System.out.println("Please enter valid coordinates");
-			}
-		}
-		scan.close();
-		if (won) {
-			System.out.println("You win!");
-			return;
-		}
-		System.out.println("You lose!");
+		Display display = new Display(this);
+		display.show();
 	}
 
 	public void generateSquares() {

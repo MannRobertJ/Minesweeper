@@ -26,25 +26,12 @@ public class Display {
 		final int height = game.getHeight();
 		final Map<Coordinate, Square> squares = game.getSquares();
 
-		print(width, height, squares);
 		draw(width, height, squares);
-
-	}
-
-	private void print(int width, int height, Map<Coordinate, Square> squares) {
-		for (int j = 0; j < height; j++) {
-			for (int i = 0; i < width; i++) {
-				Coordinate coord = new Coordinate(i, j);
-				Square square = squares.get(coord);
-				System.out.print(square.toString());
-			}
-			System.out.println();
-		}
 	}
 
 	private void draw(int width, int height, Map<Coordinate, Square> squares) {
 		JFrame frame = new JFrame();
-		frame.setPreferredSize(new Dimension(width * 10, height * 10));
+		frame.setPreferredSize(new Dimension(width * 100, height * 100));
 
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,13 +42,14 @@ public class Display {
 	}
 
 	private void drawSquares(Container container, int width, int height, Map<Coordinate, Square> squares) {
-		GridLayout layout = new GridLayout(width, height);
-		List<Button> buttons = new ArrayList();
+		GridLayout layout = new GridLayout(height, width);
+		List<Button> buttons = new ArrayList<Button>();
 		container.setLayout(layout);
-		for (int j = 0; j < height; j++) {
-			for (int i = 0; i < height; i++) {
+
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
 				Square square = squares.get(new Coordinate(i, j));
-				Button button = new Button(square, buttons);
+				Button button = new Button(square, buttons, game);
 				buttons.add(button);
 				container.add(button.getButton());
 			}

@@ -6,7 +6,7 @@ import java.util.List;
 public class Square {
 	private final int x;
 	private final int y;
-	private final boolean isBomb;
+	private boolean isBomb;
 	private boolean isFlagged;
 	private boolean isRevealed;
 	private final Game game;
@@ -25,6 +25,7 @@ public class Square {
 	}
 
 	public void countBombNeighbours() {
+		this.bombNeighbours = 0;
 		for (int i = -1; i < 2; i++) {
 			for (int j = -1; j < 2; j++) {
 				if (i == 0 && j == 0) {
@@ -67,7 +68,36 @@ public class Square {
 		return isBomb;
 	}
 
+	public void setBomb(boolean isBomb) {
+		this.isBomb = isBomb;
+	}
+
+	private void clearSquareAndNeighbours() {
+		for (int i = -1; i < 2; i++) {
+			for (int j = -1; j < 2; j++) {
+				Coordinate coord = new Coordinate(x + i, y + j);
+				Square square = game.getSquares().get(coord);
+				if (square != null) {
+					square.setBomb(false);
+				}
+			}
+		}
+		for (int i = -1; i < 2; i++) {
+			for (int j = -1; j < 2; j++) {
+				Coordinate coord = new Coordinate(x + i, y + j);
+				Square square = game.getSquares().get(coord);
+				if (square != null) {
+					square.countBombNeighbours();
+				}
+			}
+		}
+	}
+
 	public void reveal() {
+		if (!game.isStarted()) {
+			clearSquareAndNeighbours();
+			game.setStarted(true);
+		}
 		if (isRevealed) {
 			return;
 		}
