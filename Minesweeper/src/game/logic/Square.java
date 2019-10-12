@@ -24,6 +24,14 @@ public class Square {
 		this.bombNeighbours = 0;
 	}
 
+	public boolean isFlagged() {
+		return isFlagged;
+	}
+
+	public void setFlagged(boolean isFlagged) {
+		this.isFlagged = isFlagged;
+	}
+
 	public void countBombNeighbours() {
 		this.bombNeighbours = 0;
 		for (int i = -1; i < 2; i++) {
@@ -82,15 +90,6 @@ public class Square {
 				}
 			}
 		}
-		for (int i = -2; i < 3; i++) {
-			for (int j = -2; j < 3; j++) {
-				Coordinate coord = new Coordinate(x + i, y + j);
-				Square square = game.getSquares().get(coord);
-				if (square != null) {
-					square.countBombNeighbours();
-				}
-			}
-		}
 	}
 
 	public void reveal() {
@@ -101,7 +100,9 @@ public class Square {
 		if (isRevealed) {
 			return;
 		}
+		isFlagged = false;
 		isRevealed = true;
+		countBombNeighbours();
 		if (isBomb) {
 			game.lose();
 			return;
@@ -113,12 +114,16 @@ public class Square {
 
 	@Override
 	public String toString() {
+		if (isFlagged) {
+			return "F";
+		}
 		if (!isRevealed) {
-			return "?";
+			return "";
 		}
 		if (isBomb) {
-			return "b";
+			return "B";
 		}
+
 		return "" + getBombNeighbours();
 	}
 

@@ -31,7 +31,7 @@ public class Display {
 
 	private void draw(int width, int height, Map<Coordinate, Square> squares) {
 		JFrame frame = new JFrame();
-		frame.setPreferredSize(new Dimension(width * 100, height * 100));
+		frame.setPreferredSize(new Dimension(width * 50, height * 50));
 
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -46,8 +46,8 @@ public class Display {
 		List<Button> buttons = new ArrayList<Button>();
 		container.setLayout(layout);
 
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
+		for (int j = 0; j < height; j++) {
+			for (int i = 0; i < width; i++) {
 				Square square = squares.get(new Coordinate(i, j));
 				Button button = new Button(square, buttons, game);
 				buttons.add(button);

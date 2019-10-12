@@ -40,14 +40,23 @@ public class Game {
 	}
 
 	public void generateSquares() {
-		Random rand = new Random();
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				Boolean isBomb = rand.nextDouble() < bombDensity;
-				Square newSquare = new Square(i, j, isBomb, this);
+
+				Square newSquare = new Square(i, j, false, this);
 				Coordinate coord = new Coordinate(i, j);
 				squares.put(coord, newSquare);
 			}
+		}
+
+		generateBombs();
+	}
+
+	public void generateBombs() {
+		Random rand = new Random();
+		for (Square square : squares.values()) {
+			Boolean isBomb = rand.nextDouble() < bombDensity;
+			square.setBomb(isBomb);
 		}
 		for (Square square : squares.values()) {
 			square.countBombNeighbours();
